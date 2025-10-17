@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>감도 변환기</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    input, select {
+      padding: 8px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 감도 변환기</h1>
+  <label>DPI 입력</label><br />
+  <input type="number" id="dpi" placeholder="예: 800" /><br />
+
+  <label>현재 게임</label><br />
+  <select id="fromGame">
+    <option value="csgo">CS:GO</option>
+    <option value="valorant">Valorant</option>
+    <option value="apex">Apex Legends</option>
+    <option value="overwatch">오버워치</option>
+    <option value="pubg">배틀그라운드</option>
+  </select><br />
+
+  <label>현재 감도</label><br />
+  <input type="number" id="fromSens" placeholder="예: 1.5" /><br />
+
+  <label>변환할 게임</label><br />
+  <select id="toGame">
+    <option value="csgo">CS:GO</option>
+    <option value="valorant">Valorant</option>
+    <option value="apex">Apex Legends</option>
+    <option value="overwatch">오버워치</option>
+    <option value="pubg">배틀그라운드</option>
+  </select><br />
+
+  <button onclick="convertSensitivity()">변환</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const conversionRates = {
+      csgo: 1,
+      valorant: 0.314,
+      apex: 1.18,
+      overwatch: 0.022,
+      pubg: 3.18
+    };
+
+    function convertSensitivity() {
+      const dpi = parseFloat(document.getElementById("dpi").value);
+      const fromGame = document.getElementById("fromGame").value;
+      const fromSens = parseFloat(document.getElementById("fromSens").value);
+      const toGame = document.getElementById("toGame").value;
+
+      if (isNaN(dpi) || isNaN(fromSens)) {
+        document.getElementById("result").innerText = "DPI와 감도를 모두 입력하세요.";
+        return;
+      }
+
+      // eDPI 계산
+      const fromEDPI =
